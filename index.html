@@ -681,6 +681,19 @@
     document.getElementById('tab-' + id).classList.add('active');
     btn.classList.add('active');
   }
+
+  (function autoSelectDay() {
+    const today = new Date();
+    const y = today.getFullYear();
+    const m = today.getMonth() + 1;
+    const d = today.getDate();
+    const map = { '2026-4-23': 'mer', '2026-4-24': 'jeu', '2026-4-25': 'ven' };
+    const key = y + '-' + m + '-' + d;
+    const tabId = map[key];
+    if (!tabId) return;
+    const btn = document.querySelector('.tab-btn[onclick*="' + tabId + '"]');
+    if (btn) showTab(tabId, btn);
+  })();
 </script>
 
 </body>
