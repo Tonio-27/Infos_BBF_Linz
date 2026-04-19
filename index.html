@@ -876,6 +876,23 @@
     btn.classList.add('active');
   }
 
+  // Swipe entre onglets
+  const TAB_ORDER = ['mer', 'jeu', 'ven', 'chambres', 'checklist', 'infos'];
+  let touchStartX = 0;
+  document.querySelector('main').addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+  document.querySelector('main').addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) < 50) return;
+    const active = document.querySelector('.tab-panel.active').id.replace('tab-', '');
+    const idx = TAB_ORDER.indexOf(active);
+    const next = dx < 0 ? TAB_ORDER[idx + 1] : TAB_ORDER[idx - 1];
+    if (!next) return;
+    const btn = document.querySelector('.tab-btn[onclick*="' + next + '"]');
+    if (btn) showTab(next, btn);
+  }, { passive: true });
+
   // Checklist persistence
   document.querySelectorAll('.check-item input[type="checkbox"]').forEach(cb => {
     const key = 'chk_' + cb.dataset.key;
