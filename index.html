@@ -397,6 +397,65 @@
     }
     .map-link:hover { background: var(--bbf-red-mid); }
 
+    /* ── CHECKLIST ── */
+    .checklist-reset {
+      background: none;
+      border: 1.5px solid var(--slate-300);
+      border-radius: 6px;
+      padding: 0.3rem 0.9rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--slate-500);
+      cursor: pointer;
+      margin-bottom: 1.5rem;
+      transition: border-color .15s, color .15s;
+    }
+    .checklist-reset:hover { border-color: var(--bbf-red); color: var(--bbf-red); }
+
+    .checklist-section {
+      background: var(--white);
+      border: 1px solid var(--slate-300);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      margin-bottom: 0.9rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .checklist-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--bbf-red);
+      margin-bottom: 0.75rem;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.5rem 0;
+      border-top: 1px solid var(--slate-100);
+      cursor: pointer;
+      font-size: 0.93rem;
+      color: var(--slate-700);
+      transition: color .1s;
+    }
+
+    .check-item:first-of-type { border-top: none; }
+
+    .check-item input[type="checkbox"] {
+      width: 18px; height: 18px;
+      accent-color: var(--bbf-red);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .check-item.checked {
+      color: var(--slate-400);
+      text-decoration: line-through;
+    }
+
     /* ── ROOMS ── */
     .rooms-grid {
       display: grid;
@@ -493,6 +552,9 @@
     </button>
     <button class="tab-btn" onclick="showTab('ven', this)" role="tab">
       <span class="tab-dot"></span> Ven. 24
+    </button>
+    <button class="tab-btn" onclick="showTab('checklist', this)" role="tab">
+      <span class="tab-dot"></span> ✓ Check-list
     </button>
     <button class="tab-btn" onclick="showTab('chambres', this)" role="tab">
       <span class="tab-dot"></span> Chambres
@@ -688,6 +750,50 @@
     </div>
   </div>
 
+  <!-- ── CHECKLIST ── -->
+  <div id="tab-checklist" class="tab-panel">
+    <div class="day-intro">
+      <div class="day-icon">✅</div>
+      <div>
+        <h2>Check-list</h2>
+        <p>Cochez au fur et à mesure — vos réponses sont sauvegardées</p>
+      </div>
+    </div>
+    <button class="checklist-reset" onclick="resetChecklist()">Tout décocher</button>
+
+    <div class="checklist-section">
+      <div class="checklist-title">📄 Documents</div>
+      <label class="check-item"><input type="checkbox" data-key="ci1"> Carte d'identité</label>
+      <label class="check-item"><input type="checkbox" data-key="ci2"> Carte européenne d'assurance maladie</label>
+      <label class="check-item"><input type="checkbox" data-key="ci3"> Argent / moyen de paiement</label>
+    </div>
+
+    <div class="checklist-section">
+      <div class="checklist-title">🎺 Musique</div>
+      <label class="check-item"><input type="checkbox" data-key="mu1"> Instrument</label>
+      <label class="check-item"><input type="checkbox" data-key="mu2"> Embouchure</label>
+      <label class="check-item"><input type="checkbox" data-key="mu3"> Partitions</label>
+      <label class="check-item"><input type="checkbox" data-key="mu4"> Sourdines</label>
+      <label class="check-item"><input type="checkbox" data-key="mu5"> Huile / graisse pour instrument</label>
+    </div>
+
+    <div class="checklist-section">
+      <div class="checklist-title">👔 Tenue de concert</div>
+      <label class="check-item"><input type="checkbox" data-key="te1"> Paletot BBF</label>
+      <label class="check-item"><input type="checkbox" data-key="te2"> Chemise blanche</label>
+      <label class="check-item"><input type="checkbox" data-key="te3"> Pantalon noir</label>
+      <label class="check-item"><input type="checkbox" data-key="te4"> Chaussures noires</label>
+      <label class="check-item"><input type="checkbox" data-key="te5"> Chaussettes noires</label>
+    </div>
+
+    <div class="checklist-section">
+      <div class="checklist-title">🎒 Effets personnels</div>
+      <label class="check-item"><input type="checkbox" data-key="ep1"> Effets personnels (vêtements, toilette…)</label>
+      <label class="check-item"><input type="checkbox" data-key="ep2"> Chargeur de téléphone</label>
+      <label class="check-item"><input type="checkbox" data-key="ep3"> Pique-nique pour le mercredi</label>
+    </div>
+  </div>
+
   <!-- ── ADRESSES ── -->
   <!-- ── CHAMBRES ── -->
   <div id="tab-chambres" class="tab-panel">
@@ -773,6 +879,24 @@
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.getElementById('tab-' + id).classList.add('active');
     btn.classList.add('active');
+  }
+
+  // Checklist persistence
+  document.querySelectorAll('.check-item input[type="checkbox"]').forEach(cb => {
+    const key = 'chk_' + cb.dataset.key;
+    if (localStorage.getItem(key) === '1') { cb.checked = true; cb.closest('.check-item').classList.add('checked'); }
+    cb.addEventListener('change', () => {
+      localStorage.setItem(key, cb.checked ? '1' : '0');
+      cb.closest('.check-item').classList.toggle('checked', cb.checked);
+    });
+  });
+
+  function resetChecklist() {
+    document.querySelectorAll('.check-item input[type="checkbox"]').forEach(cb => {
+      cb.checked = false;
+      localStorage.removeItem('chk_' + cb.dataset.key);
+      cb.closest('.check-item').classList.remove('checked');
+    });
   }
 
   document.getElementById('last-updated').textContent =
