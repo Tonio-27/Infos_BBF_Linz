@@ -134,19 +134,20 @@
     .tabs::-webkit-scrollbar { display: none; }
 
     .tab-btn {
-      flex-shrink: 0;
+      flex: 1;
       background: none;
       border: none;
       cursor: pointer;
-      padding: 1rem 1.4rem;
-      font-size: 0.88rem;
+      padding: 0.75rem 0.5rem;
+      font-size: 0.82rem;
       font-weight: 600;
       color: var(--slate-500);
       border-bottom: 3px solid transparent;
-      transition: color .15s, border-color .15s;
+      transition: color .15s, border-color .15s, background .15s;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.25rem;
       white-space: nowrap;
     }
 
@@ -155,15 +156,13 @@
     .tab-btn.active {
       color: var(--bbf-red);
       border-bottom-color: var(--bbf-red);
+      background: var(--bbf-red-light);
     }
 
-    .tab-dot {
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      background: currentColor;
-      opacity: 0.4;
-    }
-    .tab-btn.active .tab-dot { opacity: 1; }
+    .tab-icon { font-size: 1.15rem; line-height: 1; }
+    .tab-label { font-size: 0.72rem; }
+
+    .tab-dot { display: none; }
 
     /* ── MAIN ── */
     main {
@@ -545,22 +544,22 @@
 <div class="tabs-wrapper">
   <div class="tabs" role="tablist">
     <button class="tab-btn active" onclick="showTab('mer', this)" role="tab">
-      <span class="tab-dot"></span> Mer. 22
+      <span class="tab-icon">🚌</span><span class="tab-label">Mer. 22</span>
     </button>
     <button class="tab-btn" onclick="showTab('jeu', this)" role="tab">
-      <span class="tab-dot"></span> Jeu. 23
+      <span class="tab-icon">🏆</span><span class="tab-label">Jeu. 23</span>
     </button>
     <button class="tab-btn" onclick="showTab('ven', this)" role="tab">
-      <span class="tab-dot"></span> Ven. 24
+      <span class="tab-icon">🏡</span><span class="tab-label">Ven. 24</span>
     </button>
     <button class="tab-btn" onclick="showTab('checklist', this)" role="tab">
-      <span class="tab-dot"></span> ✓ Check-list
+      <span class="tab-icon">✅</span><span class="tab-label">Check-list</span>
     </button>
     <button class="tab-btn" onclick="showTab('chambres', this)" role="tab">
-      <span class="tab-dot"></span> Chambres
+      <span class="tab-icon">🛏️</span><span class="tab-label">Chambres</span>
     </button>
     <button class="tab-btn" onclick="showTab('infos', this)" role="tab">
-      <span class="tab-dot"></span> Adresses
+      <span class="tab-icon">📍</span><span class="tab-label">Adresses</span>
     </button>
   </div>
 </div>
