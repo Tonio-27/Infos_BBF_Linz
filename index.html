@@ -754,7 +754,9 @@
       <div class="address-card">
         <h3>Point de départ / retour</h3>
         <p class="place-name">Rossens</p>
-        <p>Départ mer. 05h45<br>Retour ven. ~18h00</p>
+        <p>Rte du Barrage 199<br>1728 Rossens</p>
+        <p style="margin-top:0.4rem;">Départ mer. 05h45 · Retour ven. ~18h00</p>
+        <a class="map-link" href="https://maps.google.com/?q=Rte+du+Barrage+199,+1728+Rossens" target="_blank" rel="noopener">📍 Ouvrir Maps</a>
       </div>
     </div>
   </div>
@@ -762,7 +764,7 @@
 </main>
 
 <footer>
-  Brass Band Fribourg &nbsp;·&nbsp; Mis à jour le 19 avril 2026
+  Brass Band Fribourg &nbsp;·&nbsp; Mis à jour le <span id="last-updated"></span>
 </footer>
 
 <script>
@@ -772,6 +774,9 @@
     document.getElementById('tab-' + id).classList.add('active');
     btn.classList.add('active');
   }
+
+  document.getElementById('last-updated').textContent =
+    new Date().toLocaleDateString('fr-CH', { day: 'numeric', month: 'long', year: 'numeric' });
 
   (function autoSelectDay() {
     const today = new Date();
