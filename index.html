@@ -394,6 +394,60 @@
     }
     .map-link:hover { background: var(--bbf-red-mid); }
 
+    /* ── ROOMS ── */
+    .rooms-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .room-card {
+      background: var(--white);
+      border: 1px solid var(--slate-300);
+      border-left: 4px solid var(--bbf-red);
+      border-radius: var(--radius);
+      padding: 0.85rem 1rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .room-card.room-single {
+      border-left-color: var(--slate-400);
+    }
+
+    .room-card.room-chauffeur {
+      border-left-color: var(--amber);
+      background: var(--amber-light);
+    }
+
+    .room-names {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .room-names span {
+      font-weight: 600;
+      font-size: 0.92rem;
+      color: var(--dark);
+    }
+
+    .room-names span + span::before {
+      content: "";
+      display: block;
+      height: 1px;
+      background: var(--slate-300);
+      margin: 0.3rem 0 0.5rem;
+    }
+
+    .room-type {
+      margin-top: 0.4rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--slate-400);
+    }
+
     /* ── FOOTER ── */
     footer {
       text-align: center;
@@ -436,6 +490,9 @@
     </button>
     <button class="tab-btn" onclick="showTab('ven', this)" role="tab">
       <span class="tab-dot"></span> Ven. 25
+    </button>
+    <button class="tab-btn" onclick="showTab('chambres', this)" role="tab">
+      <span class="tab-dot"></span> Chambres
     </button>
     <button class="tab-btn" onclick="showTab('infos', this)" role="tab">
       <span class="tab-dot"></span> Adresses
@@ -629,6 +686,37 @@
   </div>
 
   <!-- ── ADRESSES ── -->
+  <!-- ── CHAMBRES ── -->
+  <div id="tab-chambres" class="tab-panel">
+    <div class="day-intro">
+      <div class="day-icon">🛏️</div>
+      <div>
+        <h2>Répartition des chambres</h2>
+        <p>Arcotel · Untere Donaulände 9, 4020 Linz</p>
+      </div>
+    </div>
+
+    <div class="rooms-grid">
+      <div class="room-card"><div class="room-names"><span>Charlotte Oesch</span><span>Karin Baechler</span></div></div>
+      <div class="room-card"><div class="room-names"><span>Audrey Goumaz</span><span>Axelle Sauthier</span></div></div>
+      <div class="room-card"><div class="room-names"><span>Nathan Goumaz</span><span>Vincent Goumaz</span></div></div>
+      <div class="room-card"><div class="room-names"><span>Aurélien Sautaux</span><span>Jonathan Moret</span></div></div>
+      <div class="room-card"><div class="room-names"><span>Baptiste Sauthier</span><span>Grégory Prétet</span></div></div>
+      <div class="room-card"><div class="room-names"><span>Julian Rösch</span><span>Simon Wittwer</span></div></div>
+      <div class="room-card"><div class="room-names"><span>Samuel Chassot</span><span>Eloi Coquoz</span></div></div>
+      <div class="room-card"><div class="room-names"><span>Cédric Jeanneret</span><span>Johann Kolly</span></div></div>
+      <div class="room-card"><div class="room-names"><span>Mathias Jaquier</span><span>Romuald Bulliard</span></div></div>
+      <div class="room-card"><div class="room-names"><span>Julien Barras</span><span>Nathan Scherly</span></div></div>
+      <div class="room-card"><div class="room-names"><span>Maxime Jordan</span><span>Anthony Collet</span></div></div>
+      <div class="room-card"><div class="room-names"><span>Pierre-Maxime Yerly</span><span>Matthieu Pasquier</span></div></div>
+      <div class="room-card"><div class="room-names"><span>Olivier Magne</span><span>Stanley Clark</span></div></div>
+      <div class="room-card"><div class="room-names"><span>Antoine Mauron</span><span>Matthieu Ding</span></div></div>
+      <div class="room-card room-single"><div class="room-names"><span>Ludivine Menoud</span></div><div class="room-type">Chambre individuelle</div></div>
+      <div class="room-card room-single"><div class="room-names"><span>Robin Bartholini</span></div><div class="room-type">Chambre individuelle</div></div>
+      <div class="room-card room-chauffeur"><div class="room-names"><span>Chauffeur</span></div><div class="room-type">Car</div></div>
+    </div>
+  </div>
+
   <div id="tab-infos" class="tab-panel">
     <div class="day-intro">
       <div class="day-icon">📍</div>
