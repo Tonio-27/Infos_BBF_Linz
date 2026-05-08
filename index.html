@@ -403,6 +403,43 @@
       text-decoration: line-through;
     }
 
+    /* ── RÉPERTOIRE ── */
+    .repertoire-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .piece-card {
+      background: var(--white);
+      border: 1px solid var(--slate-300);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .piece-num {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--bbf-red);
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .piece-title {
+      font-weight: 600;
+      font-size: 0.97rem;
+      color: var(--dark);
+    }
+
     /* ── FOOTER ── */
     footer {
       text-align: center;
@@ -442,6 +479,9 @@
     </button>
     <button class="tab-btn" onclick="showTab('infos', this)" role="tab">
       <span class="tab-icon">ℹ️</span><span class="tab-label">Infos</span>
+    </button>
+    <button class="tab-btn" onclick="showTab('repertoire', this)" role="tab">
+      <span class="tab-icon">🎼</span><span class="tab-label">Répertoire</span>
     </button>
     <button class="tab-btn" onclick="showTab('checklist', this)" role="tab">
       <span class="tab-icon">✅</span><span class="tab-label">Check-list</span>
@@ -558,6 +598,25 @@
     </div>
   </div>
 
+  <!-- ── RÉPERTOIRE ── -->
+  <div id="tab-repertoire" class="tab-panel">
+    <div class="day-intro">
+      <div class="day-icon">🎼</div>
+      <div>
+        <h2>Programme musical</h2>
+        <p>Fête fédérale · Bienne · 16 mai 2026</p>
+      </div>
+    </div>
+
+    <div class="repertoire-list">
+      <div class="piece-card"><span class="piece-num">1</span><span class="piece-title">When Thunder Calls</span></div>
+      <div class="piece-card"><span class="piece-num">2</span><span class="piece-title">Pictures at an Exhibition</span></div>
+      <div class="piece-card"><span class="piece-num">3</span><span class="piece-title">Only in Sleep</span></div>
+      <div class="piece-card"><span class="piece-num">4</span><span class="piece-title">Hannibal</span></div>
+      <div class="piece-card"><span class="piece-num">5</span><span class="piece-title">Midwest</span></div>
+    </div>
+  </div>
+
   <!-- ── CHECKLIST ── -->
   <div id="tab-checklist" class="tab-panel">
     <div class="day-intro">
@@ -611,7 +670,7 @@
   }
 
   // Swipe entre onglets
-  const TAB_ORDER = ['programme', 'infos', 'checklist'];
+  const TAB_ORDER = ['programme', 'infos', 'repertoire', 'checklist'];
   let touchStartX = 0;
   document.querySelector('main').addEventListener('touchstart', e => {
     touchStartX = e.touches[0].clientX;
