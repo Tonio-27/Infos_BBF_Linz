@@ -483,9 +483,6 @@
     <button class="tab-btn" onclick="showTab('repertoire', this)" role="tab">
       <span class="tab-icon">🎼</span><span class="tab-label">Répertoire</span>
     </button>
-    <button class="tab-btn" onclick="showTab('checklist', this)" role="tab">
-      <span class="tab-icon">✅</span><span class="tab-label">Check-list</span>
-    </button>
   </div>
 </div>
 
@@ -617,43 +614,6 @@
     </div>
   </div>
 
-  <!-- ── CHECKLIST ── -->
-  <div id="tab-checklist" class="tab-panel">
-    <div class="day-intro">
-      <div class="day-icon">✅</div>
-      <div>
-        <h2>Check-list</h2>
-        <p>Cochez au fur et à mesure — vos réponses sont sauvegardées</p>
-      </div>
-    </div>
-    <button class="checklist-reset" onclick="resetChecklist()">Tout décocher</button>
-
-    <div class="checklist-section">
-      <div class="checklist-title">📄 Documents</div>
-      <label class="check-item"><input type="checkbox" data-key="ci1"> Carte d'identité</label>
-    </div>
-
-    <div class="checklist-section">
-      <div class="checklist-title">🎺 Musique</div>
-      <label class="check-item"><input type="checkbox" data-key="mu1"> Instrument</label>
-      <label class="check-item"><input type="checkbox" data-key="mu2"> Embouchure</label>
-      <label class="check-item"><input type="checkbox" data-key="mu3"> Partitions</label>
-      <label class="check-item"><input type="checkbox" data-key="mu4"> Sourdines</label>
-    </div>
-
-    <div class="checklist-section">
-      <div class="checklist-title">👔 Tenue de concert</div>
-      <label class="check-item"><input type="checkbox" data-key="te1"> Paletot BBF</label>
-      <label class="check-item"><input type="checkbox" data-key="te2"> Chemise blanche</label>
-      <label class="check-item"><input type="checkbox" data-key="te3"> Pantalon noir</label>
-      <label class="check-item"><input type="checkbox" data-key="te4"> Chaussures noires</label>
-    </div>
-
-    <div class="checklist-section">
-      <div class="checklist-title">🎒 Effets personnels</div>
-      <label class="check-item"><input type="checkbox" data-key="ep1"> Effets personnels</label>
-    </div>
-  </div>
 
 </main>
 
@@ -670,7 +630,7 @@
   }
 
   // Swipe entre onglets
-  const TAB_ORDER = ['programme', 'infos', 'repertoire', 'checklist'];
+  const TAB_ORDER = ['programme', 'infos', 'repertoire'];
   let touchStartX = 0;
   document.querySelector('main').addEventListener('touchstart', e => {
     touchStartX = e.touches[0].clientX;
