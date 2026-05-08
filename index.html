@@ -185,23 +185,6 @@
       margin-top: 0.1rem;
     }
 
-    /* ── ALERT ── */
-    .alert {
-      background: #fff5f5;
-      border: 1px solid #fca5a5;
-      border-left: 4px solid var(--bbf-red);
-      border-radius: var(--radius);
-      padding: 1rem 1.25rem;
-      margin-bottom: 1.5rem;
-      display: flex;
-      gap: 0.75rem;
-      align-items: flex-start;
-    }
-
-    .alert-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 0.1rem; }
-    .alert strong { color: var(--bbf-red); }
-    .alert p { font-size: 0.9rem; color: #7f1d1d; line-height: 1.55; }
-
     /* ── TIMELINE ── */
     .timeline { display: flex; flex-direction: column; }
 
@@ -219,13 +202,6 @@
       color: var(--bbf-red);
       letter-spacing: 0.02em;
       line-height: 1.2;
-    }
-
-    .event-time.tbd {
-      color: var(--slate-400);
-      font-weight: 500;
-      font-style: italic;
-      font-size: 0.73rem;
     }
 
     .event-body {
@@ -278,12 +254,6 @@
     .badge-amber  { background: var(--amber-light);   color: var(--amber); }
     .badge-green  { background: var(--green-light);   color: var(--green); }
     .badge-dark   { background: #eee; color: var(--charcoal); }
-
-    .event-card-detail {
-      margin-top: 0.35rem;
-      font-size: 0.85rem;
-      color: var(--slate-500);
-    }
 
     .event-card-note {
       margin-top: 0.6rem;
@@ -343,65 +313,6 @@
       transition: background .15s;
     }
     .map-link:hover { background: var(--bbf-red-mid); }
-
-    /* ── CHECKLIST ── */
-    .checklist-reset {
-      background: none;
-      border: 1.5px solid var(--slate-300);
-      border-radius: 6px;
-      padding: 0.3rem 0.9rem;
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--slate-500);
-      cursor: pointer;
-      margin-bottom: 1.5rem;
-      transition: border-color .15s, color .15s;
-    }
-    .checklist-reset:hover { border-color: var(--bbf-red); color: var(--bbf-red); }
-
-    .checklist-section {
-      background: var(--white);
-      border: 1px solid var(--slate-300);
-      border-radius: var(--radius);
-      padding: 1rem 1.25rem;
-      margin-bottom: 0.9rem;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .checklist-title {
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--bbf-red);
-      margin-bottom: 0.75rem;
-    }
-
-    .check-item {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.5rem 0;
-      border-top: 1px solid var(--slate-100);
-      cursor: pointer;
-      font-size: 0.93rem;
-      color: var(--slate-700);
-      transition: color .1s;
-    }
-
-    .check-item:first-of-type { border-top: none; }
-
-    .check-item input[type="checkbox"] {
-      width: 18px; height: 18px;
-      accent-color: var(--bbf-red);
-      cursor: pointer;
-      flex-shrink: 0;
-    }
-
-    .check-item.checked {
-      color: var(--slate-400);
-      text-decoration: line-through;
-    }
 
     /* ── RÉPERTOIRE ── */
     .repertoire-list {
@@ -614,7 +525,6 @@
     </div>
   </div>
 
-
 </main>
 
 <footer>
@@ -629,7 +539,6 @@
     btn.classList.add('active');
   }
 
-  // Swipe entre onglets
   const TAB_ORDER = ['programme', 'infos', 'repertoire'];
   let touchStartX = 0;
   document.querySelector('main').addEventListener('touchstart', e => {
@@ -645,24 +554,6 @@
     const btn = document.querySelector('.tab-btn[onclick*="' + next + '"]');
     if (btn) showTab(next, btn);
   }, { passive: true });
-
-  // Checklist persistence
-  document.querySelectorAll('.check-item input[type="checkbox"]').forEach(cb => {
-    const key = 'chk_' + cb.dataset.key;
-    if (localStorage.getItem(key) === '1') { cb.checked = true; cb.closest('.check-item').classList.add('checked'); }
-    cb.addEventListener('change', () => {
-      localStorage.setItem(key, cb.checked ? '1' : '0');
-      cb.closest('.check-item').classList.toggle('checked', cb.checked);
-    });
-  });
-
-  function resetChecklist() {
-    document.querySelectorAll('.check-item input[type="checkbox"]').forEach(cb => {
-      cb.checked = false;
-      localStorage.removeItem('chk_' + cb.dataset.key);
-      cb.closest('.check-item').classList.remove('checked');
-    });
-  }
 
   document.getElementById('last-updated').textContent =
     new Date().toLocaleDateString('fr-CH', { day: 'numeric', month: 'long', year: 'numeric' });
