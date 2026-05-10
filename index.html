@@ -246,6 +246,17 @@
     .piece-num { width: 28px; height: 28px; border-radius: 50%; background: var(--bbf-red); color: #fff; font-size: 0.8rem; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .piece-title { font-weight: 600; font-size: 0.97rem; color: var(--dark); }
 
+    /* ── SHARE BUTTON ── */
+    .share-btn {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: rgba(255,255,255,0.12); color: #fff;
+      border: 1.5px solid rgba(255,255,255,0.25); border-radius: 2rem;
+      padding: 0.35rem 0.9rem; font-size: 0.78rem; font-weight: 600;
+      cursor: pointer; transition: background .15s;
+      margin-top: 0.6rem;
+    }
+    .share-btn:hover { background: rgba(255,255,255,0.2); }
+
     /* ── FOOTER ── */
     footer { text-align: center; padding: 1.5rem 1rem; border-top: 1px solid var(--slate-300); color: var(--slate-400); font-size: 0.78rem; }
 
@@ -267,6 +278,7 @@
     <div class="header-tag">Fête fédérale · Bienne</div>
     <h1>Prestation à <em>Bienne</em></h1>
     <p>Brass Band Fribourg &nbsp;·&nbsp; 16 mai 2026</p>
+    <button class="share-btn" onclick="sharePage(this)">📤 Partager</button>
   </div>
 </header>
 
@@ -472,7 +484,6 @@
   // ── LOGIQUE TEMPS RÉEL (active uniquement le 16 mai 2026) ──
   const EVENT_DATE = { y: 2026, m: 5, d: 16 };
 
-  // Collecte des événements avec un data-time et data-label
   const timedEvents = [...document.querySelectorAll('.event[data-time]')]
     .filter((el, i, arr) => arr.findIndex(e => e.dataset.time === el.dataset.time && e.dataset.label === el.dataset.label) === i)
     .map(el => ({ el, mins: parseInt(el.dataset.time), label: el.dataset.label }))
@@ -529,6 +540,20 @@
   if (isEventDay()) {
     updateLive();
     setInterval(updateLive, 30000);
+  }
+
+  function sharePage(btn) {
+    const url = location.href;
+    const data = { title: 'BBF · Fête fédérale Bienne', text: 'Programme et infos — Brass Band Fribourg · 16 mai 2026', url };
+    if (navigator.share) {
+      navigator.share(data).catch(() => {});
+    } else {
+      navigator.clipboard.writeText(url).then(() => {
+        const orig = btn.innerHTML;
+        btn.innerHTML = '✅ Lien copié';
+        setTimeout(() => { btn.innerHTML = orig; }, 2000);
+      });
+    }
   }
 
   document.getElementById('last-updated').textContent =
