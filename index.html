@@ -278,6 +278,7 @@
     <div class="header-tag">Fête fédérale · Bienne</div>
     <h1>Prestation à <em>Bienne</em></h1>
     <p>Brass Band Fribourg &nbsp;·&nbsp; 16 mai 2026</p>
+    <p id="jday" style="font-size:0.8rem;color:rgba(255,255,255,0.7);margin-top:0.2rem;"></p>
     <button class="share-btn" onclick="sharePage(this)">📤 Partager</button>
   </div>
 </header>
@@ -555,6 +556,15 @@
       });
     }
   }
+
+  (function() {
+    const today = new Date(); today.setHours(0,0,0,0);
+    const event = new Date(2026, 4, 16);
+    const diff = Math.round((event - today) / 86400000);
+    const el = document.getElementById('jday');
+    if (diff > 0) el.textContent = '⏳ J-' + diff;
+    else if (diff === 0) el.textContent = "🎶 C'est aujourd'hui !";
+  })();
 
   document.getElementById('last-updated').textContent =
     new Date().toLocaleDateString('fr-CH', { day: 'numeric', month: 'long', year: 'numeric' });
