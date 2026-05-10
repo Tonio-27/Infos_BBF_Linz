@@ -111,9 +111,14 @@
     .next-rdv-label { color: rgba(255,255,255,0.9); }
 
     /* ── MAIN ── */
-    main { max-width: 820px; margin: 0 auto; padding: 2rem 1rem 4rem; }
+    main { max-width: 820px; margin: 0 auto; padding: 2rem 1rem 4rem; overflow-x: hidden; }
     .tab-panel { display: none; }
-    .tab-panel.active { display: block; }
+    .tab-panel.active { display: block; animation: tabIn .22s ease-out; }
+    .tab-panel.active.from-right { animation: tabInRight .22s ease-out; }
+    .tab-panel.active.from-left  { animation: tabInLeft  .22s ease-out; }
+    @keyframes tabIn      { from { opacity:0; transform:translateY(8px);   } to { opacity:1; transform:translateY(0);   } }
+    @keyframes tabInRight { from { opacity:0; transform:translateX(28px);  } to { opacity:1; transform:translateX(0);  } }
+    @keyframes tabInLeft  { from { opacity:0; transform:translateX(-28px); } to { opacity:1; transform:translateX(0); } }
 
     /* ── SUMMARY CARD ── */
     .summary-card {
@@ -460,15 +465,24 @@
 </footer>
 
 <script>
-  function showTab(id, btn) {
-    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  const TAB_ORDER = ['programme', 'infos', 'repertoire'];
+
+  function showTab(id, btn, dir) {
+    const prev = document.querySelector('.tab-panel.active');
+    const next = document.getElementById('tab-' + id);
+    if (prev === next) return;
+    if (!dir) {
+      const fromIdx = TAB_ORDER.indexOf(prev?.id.replace('tab-', ''));
+      const toIdx   = TAB_ORDER.indexOf(id);
+      dir = toIdx > fromIdx ? 'right' : 'left';
+    }
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active', 'from-left', 'from-right'));
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('tab-' + id).classList.add('active');
+    next.classList.add('active', dir === 'right' ? 'from-right' : 'from-left');
     btn.classList.add('active');
   }
 
   // Swipe
-  const TAB_ORDER = ['programme', 'infos', 'repertoire'];
   let touchStartX = 0;
   document.querySelector('main').addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
   document.querySelector('main').addEventListener('touchend', e => {
@@ -479,7 +493,7 @@
     const next = dx < 0 ? TAB_ORDER[idx + 1] : TAB_ORDER[idx - 1];
     if (!next) return;
     const btn = document.querySelector('.tab-btn[onclick*="' + next + '"]');
-    if (btn) showTab(next, btn);
+    if (btn) showTab(next, btn, dx < 0 ? 'right' : 'left');
   }, { passive: true });
 
   // ── LOGIQUE TEMPS RÉEL (active uniquement le 16 mai 2026) ──
@@ -502,28 +516,18 @@
 
   function updateLive() {
     if (!isEventDay()) return;
-
     const now = nowMins();
-
-    // 1. Surlignage événement en cours
     document.querySelectorAll('.event').forEach(e => e.classList.remove('current'));
     let currentEvent = null;
     for (let i = timedEvents.length - 1; i >= 0; i--) {
       if (timedEvents[i].mins <= now) { currentEvent = timedEvents[i]; break; }
     }
     if (currentEvent) currentEvent.el.classList.add('current');
-
-    // 2. Résumé — surlignage de l'étape active
     const summaryItems = [...document.querySelectorAll('.summary-item[data-summary-time]')];
     summaryItems.forEach(el => el.classList.remove('si-active'));
     for (let i = summaryItems.length - 1; i >= 0; i--) {
-      if (parseInt(summaryItems[i].dataset.summaryTime) <= now) {
-        summaryItems[i].classList.add('si-active');
-        break;
-      }
+      if (parseInt(summaryItems[i].dataset.summaryTime) <= now) { summaryItems[i].classList.add('si-active'); break; }
     }
-
-    // 3. Bannière prochain RDV
     const nextEvent = timedEvents.find(e => e.mins > now);
     const banner = document.getElementById('next-rdv');
     if (nextEvent) {
@@ -538,10 +542,7 @@
     }
   }
 
-  if (isEventDay()) {
-    updateLive();
-    setInterval(updateLive, 30000);
-  }
+  if (isEventDay()) { updateLive(); setInterval(updateLive, 30000); }
 
   function sharePage(btn) {
     const url = location.href;
